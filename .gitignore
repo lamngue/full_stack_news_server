@@ -1,0 +1,23 @@
+# Server
+full-stack-news-backend/node_modules
+# Client
+full-stack-news-client/node_modules
+full-stack-news-client/.pnp
+full-stack-news-client/.pnp.js
+
+# testing
+full-stack-news-client/coverage
+
+# production
+full-stack-news-client/build
+
+# misc
+full-stack-news-client/.DS_Store
+full-stack-news-client/.env.local
+full-stack-news-client/.env.development.local
+full-stack-news-client/.env.test.local
+full-stack-news-client/.env.production.local
+
+full-stack-news-client/npm-debug.log*
+full-stack-news-client/yarn-debug.log*
+full-stack-news-client/yarn-error.log*
