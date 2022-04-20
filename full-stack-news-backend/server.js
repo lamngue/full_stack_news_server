@@ -2,9 +2,9 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const port = 3000
+const port = 3001
 const categoryRouter = require('./categoryRouter')
-const viewPostRouter = require('./viewPostRouter')
+const postRouter = require('./viewPostRouter')
 const mysql = require('mysql')
 
 const db = mysql.createPool({
@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 
 app.use('/category/', categoryRouter)
 
-app.post('/view-post/', viewPostRouter)
+app.post('/view-news/', postRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
