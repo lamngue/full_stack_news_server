@@ -1,10 +1,11 @@
-import React from 'react';
+import React from "react";
 import { Form, Input, Button, Select } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { bindActionCreators } from "redux";
+import { useNavigate } from "react-router-dom";
 import { actionCreators } from "../state/index";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const { Option } = Select;
 const layout = {
@@ -22,21 +23,28 @@ const tailLayout = {
   },
 };
 
-const CreateNews = () => {
+const CreateNews = (props) => {
   const [form] = Form.useForm();
-  const content = useSelector(state => state.content);
+  const content = useSelector((state) => state.content);
   const dispatch = useDispatch();
-  const { modifyContent, addNews } = bindActionCreators(actionCreators, dispatch);
-  
+  const navigate = useNavigate();
+
+  const { modifyContent, addNews } = bindActionCreators(
+    actionCreators,
+    dispatch
+  );
+
   const onContentChange = (e, editor) => {
     const data = editor.getData();
     modifyContent(data);
-  }
+  };
 
   const onFinish = (values) => {
     values.content = content;
-    addNews(values);
     console.log(values);
+    addNews(values).then(() => {
+      navigate("/");
+    });
   };
 
   const onReset = () => {
@@ -65,13 +73,12 @@ const CreateNews = () => {
           },
         ]}
       >
-        <Select
-          placeholder="Select a option"
-          allowClear
-        >
-          <Option value="male">male</Option>
-          <Option value="female">female</Option>
-          <Option value="other">other</Option>
+        <Select mode="multiple" placeholder="Select option(s)" allowClear>
+          <Option value="sports">sports</Option>
+          <Option value="business">business</Option>
+          <Option value="politics">politics</Option>
+          <Option value="entertainment">entertainment</Option>
+          <Option value="tech">tech</Option>
         </Select>
       </Form.Item>
       <Form.Item
@@ -84,7 +91,7 @@ const CreateNews = () => {
         ]}
       >
         <CKEditor editor={ClassicEditor} onChange={onContentChange} />
-        </Form.Item>
+      </Form.Item>
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">
           Submit

@@ -8,7 +8,6 @@ import { Layout, Menu, Breadcrumb } from "antd";
 const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
-  const posts = useSelector((state) => state.post);
   const [current, setCurrent] = React.useState("");
   const [collapsed, setCollapsed] = React.useState(false);
 
@@ -40,8 +39,7 @@ function App() {
                 <Link to="/create" />
               </Menu.Item>
               <Menu.Item key="2">
-                <span>Category</span>
-                <Link to="/" />
+                <span>All Categories</span>
               </Menu.Item>
             </Menu>
           </Sider>

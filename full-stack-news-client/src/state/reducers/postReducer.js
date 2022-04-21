@@ -1,16 +1,17 @@
 const reducer = (state = [], action) => {
-    switch(action.type) {
-        case "FETCH_POST":
-            return []
-        case "ADD_POST":
-            return []
-        case "EDIT_POST":
-            return []
-        case "DELETE_POST":
-            return []
-        default:
-            return state
-    }
-}
+  let newState = [];
+  switch (action.type) {
+    case "FETCH_NEWS":
+      return action.payload;
+    case "CLEAR_NEWS":
+      return action.payload;
+    case "EDIT_NEWS":
+      return [];
+    case "DELETE_NEWS":
+      return [];
+    default:
+      return state;
+  }
+};
 
-export default reducer
+export default reducer;
