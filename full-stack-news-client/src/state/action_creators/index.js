@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getAxiosInstance = () => {
     return axios.create({
-        baseURL: "http://localhost/",
+        baseURL: "http://localhost:3001/",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -11,10 +11,19 @@ const getAxiosInstance = () => {
     });
 };
 
+export const modifyContent = (content) => {
+    return dispatch => {
+        dispatch({
+            type: "MODIFY_CONTENT",
+            payload: String(content)
+        })
+    }
+}
+
 export const fetchNews = (extraHeaders = {}) => {
     return async dispatch => {
         const results = await getAxiosInstance().get(
-            `/view-news/`,
+            `/news/`,
             {
                 headers: { ...extraHeaders },
             },
@@ -29,7 +38,7 @@ export const fetchNews = (extraHeaders = {}) => {
 export const addNews = (news, extraHeaders = {}) => {
     return async dispatch => {
         const results = await getAxiosInstance().post(
-            `/view-news/`, news,
+            `/news/`, news,
             {
                 headers: { ...extraHeaders },
             },

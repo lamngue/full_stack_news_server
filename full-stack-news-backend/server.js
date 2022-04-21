@@ -4,15 +4,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const port = 3001
 const categoryRouter = require('./categoryRouter')
-const postRouter = require('./viewPostRouter')
-const mysql = require('mysql')
-
-const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'L4md3pz4i@',
-  database: 'full_stack_news_project'
-})
+const postRouter = require('./postRouter')
 
 const corsConfig = {
   origin: ['http://localhost:3000'],
@@ -30,7 +22,7 @@ app.get('/', (req, res) => {
 
 app.use('/category/', categoryRouter)
 
-app.post('/view-news/', postRouter)
+app.use('/news/', postRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
