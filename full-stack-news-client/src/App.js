@@ -1,11 +1,21 @@
 import React from "react";
 import "./App.css";
 import AllPosts from "./components/allPosts";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import ViewAPost from "./components/viewAPost";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import CreateNews from "./components/createNews";
-import { useSelector } from "react-redux";
 import { Layout, Menu, Breadcrumb } from "antd";
+
 const { Header, Content, Footer, Sider } = Layout;
+
+const AppRoutes = () =>
+  useRoutes([
+    { path: "/", element: <AllPosts /> },
+    { path: "/info/:title", element: <ViewAPost /> },
+    { path: "/category/:type", element: <AllPosts /> },
+    { path: "/create", element: <CreateNews /> },
+  ]);
 
 function App() {
   const [current, setCurrent] = React.useState("");
@@ -14,10 +24,12 @@ function App() {
   const onClick = (e) => {
     setCurrent(e.key);
   };
+
   const onCollapse = (collapsed) => {
     console.log(collapsed);
     setCollapsed(collapsed);
   };
+
   return (
     <div className="App">
       <Router>
@@ -38,9 +50,39 @@ function App() {
                 <span>Create News</span>
                 <Link to="/create" />
               </Menu.Item>
-              <Menu.Item key="2">
-                <span>All Categories</span>
-              </Menu.Item>
+              <Menu.SubMenu
+                key="2"
+                title={
+                  <>
+                    <span>All Categories</span>
+                  </>
+                }
+              >
+                <Menu.Item key="all">
+                  <Link to="/" />
+                  all
+                </Menu.Item>
+                <Menu.Item key="sports">
+                  <Link to="/category/sports" />
+                  sports
+                </Menu.Item>
+                <Menu.Item key="business">
+                  <Link to="/category/business" />
+                  business
+                </Menu.Item>
+                <Menu.Item key="politics">
+                  <Link to="/category/politics" />
+                  politics
+                </Menu.Item>
+                <Menu.Item key="entertainment">
+                  <Link to="/category/entertainment" />
+                  entertainment
+                </Menu.Item>
+                <Menu.Item key="tech">
+                  <Link to="/category/tech" />
+                  tech
+                </Menu.Item>
+              </Menu.SubMenu>
             </Menu>
           </Sider>
           <Layout className="site-layout">
@@ -60,8 +102,7 @@ function App() {
                   margin: "16px 0",
                 }}
               >
-                <Breadcrumb.Item>Category</Breadcrumb.Item>
-                <Breadcrumb.Item></Breadcrumb.Item>
+                <Breadcrumb.Item>All Categories</Breadcrumb.Item>
               </Breadcrumb>
               <div
                 className="site-layout-background"
@@ -70,10 +111,7 @@ function App() {
                   minHeight: 360,
                 }}
               >
-                <Routes>
-                  <Route path="/" element={<AllPosts />} />
-                  <Route path="/create" element={<CreateNews />} />
-                </Routes>
+                <AppRoutes />
               </div>
             </Content>
             <Footer
@@ -81,7 +119,7 @@ function App() {
                 textAlign: "center",
               }}
             >
-              Ant Design ©2018 Created by Ant UED
+              ©2022 Created by Lam Nguyen
             </Footer>
           </Layout>
         </Layout>

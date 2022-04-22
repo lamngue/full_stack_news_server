@@ -20,9 +20,9 @@ export const modifyContent = (content) => {
   };
 };
 
-export const fetchNews = (extraHeaders = {}) => {
+export const fetchNews = (type, extraHeaders = {}) => {
   return async (dispatch) => {
-    const results = await getAxiosInstance().get(`/news/`, {
+    const results = await getAxiosInstance().get(`/news/${type}`, {
       headers: { ...extraHeaders },
     });
     dispatch({

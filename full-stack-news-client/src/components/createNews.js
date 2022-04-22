@@ -41,7 +41,6 @@ const CreateNews = (props) => {
 
   const onFinish = (values) => {
     values.content = content;
-    console.log(values);
     addNews(values).then(() => {
       navigate("/");
     });
@@ -79,6 +78,7 @@ const CreateNews = (props) => {
           <Option value="politics">politics</Option>
           <Option value="entertainment">entertainment</Option>
           <Option value="tech">tech</Option>
+          <Option value="others">tech</Option>
         </Select>
       </Form.Item>
       <Form.Item
@@ -90,7 +90,15 @@ const CreateNews = (props) => {
           },
         ]}
       >
-        <CKEditor editor={ClassicEditor} onChange={onContentChange} />
+        <CKEditor
+          editor={ClassicEditor}
+          config={{
+            ckfinder: {
+              uploadUrl: "http://localhost:3001/upload-image",
+            },
+          }}
+          onChange={onContentChange}
+        />
       </Form.Item>
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit">

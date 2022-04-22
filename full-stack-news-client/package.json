@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^34.0.0",
+    "@ckeditor/ckeditor5-ckfinder": "^34.0.0",
+    "@ckeditor/ckeditor5-easy-image": "^34.0.0",
     "@ckeditor/ckeditor5-react": "^5.0.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
@@ -17,6 +19,7 @@
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "react-slugify": "^2.1.0",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "web-vitals": "^2.1.4"
