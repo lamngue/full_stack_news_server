@@ -44,6 +44,19 @@ export const fetchNewsDetail = (id, extraHeaders = {}) => {
   };
 };
 
+export const fetchCategories = (extraHeaders = {}) => {
+  return async (dispatch) => {
+    console.log("getting categories");
+    const results = await getAxiosInstance().get(`/categories`, {
+      headers: { ...extraHeaders },
+    });
+    dispatch({
+      type: "FETCH_CATEGORIES",
+      payload: results.data,
+    });
+  };
+};
+
 export const clearNews = (extraHeaders = {}) => {
   return (dispatch) => {
     dispatch({
@@ -62,5 +75,26 @@ export const addNews = (news, extraHeaders = {}) => {
       type: "ADD_NEWS",
       payload: results.data,
     });
+  };
+};
+
+export const editNews = ({ values, id }, extraHeaders = {}) => {
+  return async (dispatch) => {
+    const results = await getAxiosInstance().put(`/news/${id}`, values, {
+      headers: { ...extraHeaders },
+    });
+    dispatch({
+      type: "EDIT_NEWS",
+      payload: results.data,
+    });
+  };
+};
+
+export const deleteNews = (id, type, extraHeaders = {}) => {
+  return async (dispatch) => {
+    await getAxiosInstance().delete(`/news/${id}`, {
+      headers: { ...extraHeaders },
+    });
+    dispatch(fetchNews(type));
   };
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import AllPosts from "./components/allPosts";
 import ViewAPost from "./components/viewAPost";
@@ -6,6 +6,9 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 import { useRoutes } from "react-router-dom";
 import CreateNews from "./components/createNews";
 import { Layout, Menu } from "antd";
+import { useDispatch } from "react-redux";
+import { fetchCategories } from "./state/action_creators";
+// import
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -15,11 +18,17 @@ const AppRoutes = () =>
     { path: "/news/:title", element: <ViewAPost /> },
     { path: "/category/:type", element: <AllPosts /> },
     { path: "/create", element: <CreateNews /> },
+    { path: "/edit/:id", element: <CreateNews /> },
   ]);
 
 function App() {
   const [current, setCurrent] = React.useState("");
-  const [collapsed, setCollapsed] = React.useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("fetchCategories");
+    dispatch(fetchCategories());
+  }, []);
 
   const onClick = (e) => {
     setCurrent(e.key);

@@ -7,6 +7,7 @@ const multiparty = require("connect-multiparty");
 const MultipartyMiddleware = multiparty({ uploadDir: "./uploads" });
 const helmet = require("helmet");
 const newsRouter = require("./newsRouter");
+const categoriesRouter = require("./categoriesRouter");
 const path = require("path");
 const fs = require("fs");
 
@@ -51,6 +52,8 @@ app.get("/", (req, res) => {
 // });
 
 app.use("/news/", newsRouter);
+
+app.use("/categories/", categoriesRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

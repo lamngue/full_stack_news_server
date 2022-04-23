@@ -8,7 +8,6 @@ const AllPosts = () => {
   const news = useSelector((state) => state.news);
   const { type } = useParams();
   const dispatch = useDispatch();
-  // const { fetchNews, clearNews } = bindActionCreators(actionCreators, dispatch);
 
   useEffect(() => {
     dispatch(clearNews);
@@ -17,9 +16,13 @@ const AllPosts = () => {
 
   return (
     <div>
-      <h2>All Posts</h2>
-      {news?.length ? (
-        news.map((item) => <NewsCard key={item.ID} {...item} />)
+      <h2>All News</h2>
+      {news && news.length > 0 ? (
+        news.map((item) => <NewsCard type={type} key={item.ID} {...item} />)
+      ) : news && news.length === 0 ? (
+        <h3>
+          There is no news to show :(. Please go to "Create News" to make one.
+        </h3>
       ) : (
         <>Loading...</>
       )}

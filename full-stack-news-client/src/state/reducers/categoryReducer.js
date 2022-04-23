@@ -1,6 +1,6 @@
-const reducer = (state = [], action) => {
+const reducer = (state = {}, action) => {
   switch (action.type) {
-    case "MODIFY_CONTENT":
+    case "FETCH_CATEGORIES":
       const newState = action.payload;
       return newState;
     default:

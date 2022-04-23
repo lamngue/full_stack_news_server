@@ -1,10 +1,12 @@
-import React from "react";
-import { Form, Input, Button, Select, Card } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, Select, Card, message, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { modifyContent, addNews } from "../state/action_creators";
+import { useNavigate, useParams } from "react-router-dom";
+import { modifyContent, addNews, editNews } from "../state/action_creators";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { fetchNewsDetail } from "../state/action_creators";
+import { normalizeNewsEdit } from "../utils";
 
 const { Option } = Select;
 const layout = {
@@ -24,26 +26,41 @@ const tailLayout = {
 
 const CreateNews = (props) => {
   const [form] = Form.useForm();
-  const content = useSelector((state) => state.content);
+  const { id } = useParams();
+  const isEdit = !!id;
+  const [content, setContent] = useState("");
+  const newsDetail = useSelector((state) => state.news.newsDetail);
+  const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const { modifyContent, addNews } = bindActionCreators(
-  //   actionCreators,
-  //   dispatch
-  // );
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchNewsDetail(id));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (newsDetail) {
+      form.setFieldsValue(normalizeNewsEdit(newsDetail));
+      setContent(newsDetail.content);
+    }
+  }, [newsDetail]);
 
   const onContentChange = (e, editor) => {
     const data = editor.getData();
-    modifyContent(data);
+    setContent(data);
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     values.content = content;
-    console.log(values);
-    addNews(values).then(() => {
+    if (isEdit) {
+      dispatch(editNews({ id, values }));
+      message.success("Update completed!");
+    } else {
+      dispatch(addNews(values));
       navigate("/");
-    });
+    }
   };
 
   const onReset = () => {
@@ -51,7 +68,7 @@ const CreateNews = (props) => {
   };
 
   return (
-    <Card title="Create News">
+    <Card title={isEdit ? "Edit News" : "Create News"}>
       <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
         <Form.Item
           name="title"
@@ -74,12 +91,13 @@ const CreateNews = (props) => {
           ]}
         >
           <Select mode="multiple" placeholder="Select option(s)" allowClear>
-            <Option value="sports">sports</Option>
-            <Option value="business">business</Option>
-            <Option value="politics">politics</Option>
-            <Option value="entertainment">entertainment</Option>
-            <Option value="tech">tech</Option>
-            <Option value="others">tech</Option>
+            {categories?.length
+              ? categories.map((item) => (
+                  <Option key={item.ID} value={item.ID}>
+                    {item.type}
+                  </Option>
+                ))
+              : null}
           </Select>
         </Form.Item>
         <Form.Item
@@ -93,6 +111,7 @@ const CreateNews = (props) => {
         >
           <CKEditor
             editor={ClassicEditor}
+            data={content}
             config={{
               ckfinder: {
                 uploadUrl: "http://localhost:3001/upload-image",
@@ -102,12 +121,14 @@ const CreateNews = (props) => {
           />
         </Form.Item>
         <Form.Item {...tailLayout}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-          <Button htmlType="button" onClick={onReset}>
-            Reset
-          </Button>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              {isEdit ? "Update" : "Create"}
+            </Button>
+            <Button htmlType="button" onClick={onReset}>
+              Reset
+            </Button>
+          </Space>
         </Form.Item>
       </Form>
     </Card>
