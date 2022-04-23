@@ -5,14 +5,14 @@ import ViewAPost from "./components/viewAPost";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import { useRoutes } from "react-router-dom";
 import CreateNews from "./components/createNews";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu } from "antd";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const AppRoutes = () =>
   useRoutes([
     { path: "/", element: <AllPosts /> },
-    { path: "/info/:title", element: <ViewAPost /> },
+    { path: "/news/:title", element: <ViewAPost /> },
     { path: "/category/:type", element: <AllPosts /> },
     { path: "/create", element: <CreateNews /> },
   ]);
@@ -25,11 +25,6 @@ function App() {
     setCurrent(e.key);
   };
 
-  const onCollapse = (collapsed) => {
-    console.log(collapsed);
-    setCollapsed(collapsed);
-  };
-
   return (
     <div className="App">
       <Router>
@@ -38,8 +33,7 @@ function App() {
             minHeight: "100vh",
           }}
         >
-          <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-            <div className="logo" />
+          <Sider>
             <Menu
               theme="dark"
               onClick={onClick}
@@ -86,24 +80,11 @@ function App() {
             </Menu>
           </Sider>
           <Layout className="site-layout">
-            <Header
-              className="site-layout-background"
-              style={{
-                padding: 0,
-              }}
-            />
             <Content
               style={{
                 margin: "0 16px",
               }}
             >
-              <Breadcrumb
-                style={{
-                  margin: "16px 0",
-                }}
-              >
-                <Breadcrumb.Item>All Categories</Breadcrumb.Item>
-              </Breadcrumb>
               <div
                 className="site-layout-background"
                 style={{

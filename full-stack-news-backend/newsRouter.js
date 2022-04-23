@@ -2,6 +2,7 @@ const express = require("express");
 const dayjs = require("dayjs");
 const newsRouter = express.Router();
 const db = require("./db");
+const { encodeHTML, decodeHTML } = require("./utils");
 
 newsRouter.get("/:type", (req, res) => {
   const { type } = req.params;
@@ -25,13 +26,13 @@ newsRouter.post("/", (req, res) => {
   const { title, category, content } = req.body;
   const created_date = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
   const updated_date = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
-
+  const encodedHTML = encodeHTML(content);
   const insertNews =
     "INSERT INTO news (title, content, created_date, updated_date) VALUES (?, ?, ?, ?)";
   let ret;
   db.query(
     insertNews,
-    [title, content, created_date, updated_date],
+    [title, encodedHTML, created_date, updated_date],
     (err, result) => {
       // console.log("Inserted" + res.insertId);
       if (err) throw err;
@@ -55,8 +56,15 @@ newsRouter.post("/", (req, res) => {
   res.json(ret);
 });
 
-newsRouter.get("/:id", (req, res) => {
-  res.json("View Post router " + req.params.id);
+newsRouter.get("/detail/:id", (req, res) => {
+  const sqlStatement = "SELECT * FROM news WHERE ID = ?";
+  const { id } = req.params;
+  db.query(sqlStatement, [id], (err, result) => {
+    if (err) throw err;
+    const newsDetail = result[0];
+    console.log({ ...newsDetail, content: decodeHTML(newsDetail.content) });
+    res.send({ ...newsDetail, content: decodeHTML(newsDetail.content) });
+  });
 });
 
 module.exports = newsRouter;

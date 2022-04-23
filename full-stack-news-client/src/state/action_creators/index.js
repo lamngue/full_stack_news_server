@@ -32,6 +32,18 @@ export const fetchNews = (type, extraHeaders = {}) => {
   };
 };
 
+export const fetchNewsDetail = (id, extraHeaders = {}) => {
+  return async (dispatch) => {
+    const results = await getAxiosInstance().get(`/news/detail/${id}`, {
+      headers: { ...extraHeaders },
+    });
+    dispatch({
+      type: "FETCH_NEWS_DETAIL",
+      payload: results.data,
+    });
+  };
+};
+
 export const clearNews = (extraHeaders = {}) => {
   return (dispatch) => {
     dispatch({
