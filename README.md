@@ -1,6 +1,6 @@
 # full_stack_news
 
-## A Coding challenge for a company, this is a simple blog web application. Tech stack: React, Redux, Express.js and MySQL.
+## A Coding challenge for a company, this is a simple blog web application. Tech stack: React, Redux, Express.js and MySQL. Demo link is at: https://grand-nasturtium-b81bfe.netlify.app/
 ### Takeaways: There are some drawbacks to this project, as I have not encountered those yet:
 
 - The database querying part uses nested callbacks, which is a bad practice.
