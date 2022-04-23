@@ -5,11 +5,12 @@ const bodyParser = require("body-parser");
 const PORT = 3001;
 const newsRouter = require("./routers/newsRouter");
 const categoriesRouter = require("./routers/categoriesRouter");
+require("dotenv").config();
 
 const corsConfig = {
   origin: [
     "http://localhost:3000",
-    "https://6263ff2bcbf68433c2aff5c8--grand-nasturtium-b81bfe.netlify.app",
+    "https://grand-nasturtium-b81bfe.netlify.app",
   ],
   credentials: false,
 };
@@ -53,5 +54,6 @@ app.use("/news/", newsRouter);
 app.use("/categories/", categoriesRouter);
 
 app.listen(process.env.PORT || PORT, () => {
+  console.log(process.env.MYSQL_DB_HOST);
   console.log(`Example app listening on port ${PORT}`);
 });
