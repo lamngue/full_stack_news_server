@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const port = 3001;
+const PORT = 3001;
 const newsRouter = require("./routers/newsRouter");
 const categoriesRouter = require("./routers/categoriesRouter");
 
@@ -52,6 +52,6 @@ app.use("/news/", newsRouter);
 
 app.use("/categories/", categoriesRouter);
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(process.env.PORT || PORT, () => {
+  console.log(`Example app listening on port ${PORT}`);
 });

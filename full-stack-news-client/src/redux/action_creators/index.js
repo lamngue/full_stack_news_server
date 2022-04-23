@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getAxiosInstance = () => {
   return axios.create({
-    baseURL: "http://localhost:3001/",
+    baseURL: "https://full-stack-news-backend.herokuapp.com/",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
