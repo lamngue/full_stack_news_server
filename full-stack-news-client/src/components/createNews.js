@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Select, Card, message, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { modifyContent, addNews, editNews } from "../state/action_creators";
+import { addNews, editNews } from "../redux/action_creators";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { fetchNewsDetail } from "../state/action_creators";
+import { fetchNewsDetail } from "../redux/action_creators";
 import { normalizeNewsEdit } from "../utils";
 
 const { Option } = Select;

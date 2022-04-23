@@ -3,23 +3,20 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const port = 3001;
-const multiparty = require("connect-multiparty");
-const MultipartyMiddleware = multiparty({ uploadDir: "./uploads" });
-const helmet = require("helmet");
-const newsRouter = require("./newsRouter");
-const categoriesRouter = require("./categoriesRouter");
-const path = require("path");
-const fs = require("fs");
+const newsRouter = require("./routers/newsRouter");
+const categoriesRouter = require("./routers/categoriesRouter");
 
 const corsConfig = {
-  origin: ["http://localhost:3000"],
+  origin: [
+    "http://localhost:3000",
+    "https://6263ff2bcbf68433c2aff5c8--grand-nasturtium-b81bfe.netlify.app",
+  ],
   credentials: false,
 };
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors(corsConfig));
-app.use(helmet.referrerPolicy({ policy: "strict-origin-when-cross-origin" }));
 app.use(express.static("uploads"));
 
 app.get("/", (req, res) => {

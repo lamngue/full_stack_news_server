@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { Button, Divider } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchNewsDetail } from "../state/action_creators";
+import { fetchNewsDetail } from "../redux/action_creators";
 
 const ViewAPost = () => {
   const { title } = useParams();
@@ -14,7 +14,6 @@ const ViewAPost = () => {
 
   useEffect(() => {
     if (id) {
-      console.log("id", id);
       dispatch(fetchNewsDetail(id));
     }
   }, [id]);

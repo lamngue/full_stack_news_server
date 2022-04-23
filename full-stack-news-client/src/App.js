@@ -7,7 +7,7 @@ import { useRoutes } from "react-router-dom";
 import CreateNews from "./components/createNews";
 import { Layout, Menu } from "antd";
 import { useDispatch } from "react-redux";
-import { fetchCategories } from "./state/action_creators";
+import { fetchCategories } from "./redux/action_creators";
 // import
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -26,7 +26,6 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("fetchCategories");
     dispatch(fetchCategories());
   }, []);
 

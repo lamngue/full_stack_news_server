@@ -1,6 +1,6 @@
 const express = require("express");
 const categoriesRouter = express.Router();
-const db = require("./db");
+const db = require("../db/db");
 
 categoriesRouter.get("/", (req, res) => {
   const sqlStatement = "SELECT * FROM category";

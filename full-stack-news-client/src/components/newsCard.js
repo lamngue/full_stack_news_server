@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button, Card, Popconfirm, Space, message } from "antd";
-import { deleteNews, fetchNews } from "../state/action_creators";
+import { deleteNews, fetchNews } from "../redux/action_creators";
 import { useDispatch } from "react-redux";
 import slugify from "react-slugify";
 

@@ -5,7 +5,7 @@ import App from "./App";
 import "antd/dist/antd.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { store } from "./state/store";
+import { store } from "./redux/store";
 
 render(
   <React.StrictMode>

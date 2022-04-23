@@ -2,7 +2,7 @@ import { React, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import NewsCard from "./newsCard";
-import { clearNews, fetchNews } from "../state/action_creators";
+import { clearNews, fetchNews } from "../redux/action_creators";
 
 const AllPosts = () => {
   const news = useSelector((state) => state.news);
