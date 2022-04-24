@@ -8,6 +8,8 @@ import CreateNews from "./components/createNews";
 import { Layout, Menu } from "antd";
 import { useDispatch } from "react-redux";
 import { fetchCategories } from "./redux/action_creators";
+import useWindowSize from "./utils/useWindowSize";
+import { PlusSquareOutlined, ReadOutlined } from "@ant-design/icons";
 // import
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -22,6 +24,7 @@ const AppRoutes = () =>
   ]);
 
 function App() {
+  const { width } = useWindowSize();
   const [current, setCurrent] = React.useState("");
   const dispatch = useDispatch();
 
@@ -41,22 +44,26 @@ function App() {
             minHeight: "100vh",
           }}
         >
-          <Sider>
+          <Sider breakpoint="md">
             <Menu
               theme="dark"
               onClick={onClick}
               defaultSelectedKeys={[current]}
               mode="inline"
             >
-              <Menu.Item key="1">
-                <span>Create News</span>
+              <Menu.Item
+                icon={width < 750 ? <PlusSquareOutlined /> : null}
+                key="1"
+              >
+                <span>{width >= 750 ? "Create News" : null}</span>
                 <Link to="/create" />
               </Menu.Item>
               <Menu.SubMenu
+                icon={width < 750 ? <ReadOutlined /> : null}
                 key="2"
                 title={
                   <>
-                    <span>All Categories</span>
+                    <span>{width >= 750 ? "All Categories" : null}</span>
                   </>
                 }
               >

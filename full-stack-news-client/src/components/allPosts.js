@@ -3,10 +3,12 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import NewsCard from "./newsCard";
 import { clearNews, fetchNews } from "../redux/action_creators";
+import useWindowSize from "../utils/useWindowSize";
 
 const AllPosts = () => {
   const news = useSelector((state) => state.news);
   const { type } = useParams();
+  const { width } = useWindowSize();
   const dispatch = useDispatch();
 
   useEffect(() => {
