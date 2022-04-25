@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import "./App.css";
 import AllPosts from "./components/allPosts";
 import ViewAPost from "./components/viewAPost";
@@ -8,19 +8,24 @@ import CreateNews from "./components/createNews";
 import { Layout, Menu } from "antd";
 import { useDispatch } from "react-redux";
 import { fetchCategories } from "./redux/action_creators";
+import LoadingBar from "./components/loadingBar";
 import useWindowSize from "./utils/useWindowSize";
 import { PlusSquareOutlined, ReadOutlined } from "@ant-design/icons";
 // import
 
 const { Header, Content, Footer, Sider } = Layout;
 
+const AllPostModule = lazy(() => import("./components/allPosts"));
+const ViewAPostModule = lazy(() => import("./components/viewAPost"));
+const CreateNewsModule = lazy(() => import("./components/createNews"));
+
 const AppRoutes = () =>
   useRoutes([
-    { path: "/", element: <AllPosts /> },
-    { path: "/news/:title", element: <ViewAPost /> },
-    { path: "/category/:type", element: <AllPosts /> },
-    { path: "/create", element: <CreateNews /> },
-    { path: "/edit/:id", element: <CreateNews /> },
+    { path: "/", element: <AllPostModule /> },
+    { path: "/news/:title", element: <ViewAPostModule /> },
+    { path: "/category/:type", element: <AllPostModule /> },
+    { path: "/create", element: <CreateNewsModule /> },
+    { path: "/edit/:id", element: <CreateNewsModule /> },
   ]);
 
 function App() {
@@ -107,7 +112,9 @@ function App() {
                   minHeight: 360,
                 }}
               >
-                <AppRoutes />
+                <Suspense fallback={<LoadingBar />}>
+                  <AppRoutes />
+                </Suspense>
               </div>
             </Content>
             <Footer

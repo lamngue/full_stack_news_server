@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, Popconfirm, Space, Tooltip, message } from "antd";
 import { deleteNews, fetchNews } from "../redux/action_creators";
@@ -16,7 +15,6 @@ const NewsCard = (props) => {
   const { width } = useWindowSize();
   const confirmDelete = (id) => {
     dispatch(deleteNews(id));
-    dispatch(fetchNews(props.type));
     message.success("Deleted News with ID " + id);
   };
 

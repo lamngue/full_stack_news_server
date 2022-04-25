@@ -26,29 +26,6 @@ app.get("/", (req, res) => {
   });
 });
 
-// app.post("/upload-image", MultipartyMiddleware, (req, res) => {
-//   const TempFile = req.files.upload;
-//   const TempPathfile = TempFile.path;
-
-//   const targetPathUrl = path.join(__dirname, "./uploads/" + TempFile.name);
-
-//   if (
-//     path.extname(TempFile.originalFilename).toLowerCase() === ".png" ||
-//     ".jpg"
-//   ) {
-//     fs.rename(TempPathfile, targetPathUrl, (err) => {
-//       res.json({
-//         uploaded: true,
-//         url: `${TempFile.originalFilename}`,
-//       });
-
-//       if (err) return console.log(err);
-//     });
-//   }
-
-//   console.log(req.files);
-// });
-
 app.use("/news/", newsRouter);
 
 app.use("/categories/", categoriesRouter);
