@@ -6,11 +6,12 @@
 
 ![image](https://user-images.githubusercontent.com/34784901/165018972-7a03c97d-a1ac-4c3e-92d4-a0e3f7c0dcdf.png)
 
+### To run and test on local, the .env file is at the backend folder
+
 ### Takeaways: There are some drawbacks to this project, as I have not encountered those yet:
 
 - The database querying part uses nested callbacks, which is a bad practice.
 - The upload image function does not work, as I have not figured out how to integrate on time (perhaps I will use a 3rd party API to do that in the future).
-
 
 ### A few screenshots
 - All categories
