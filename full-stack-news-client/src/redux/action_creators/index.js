@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getAxiosInstance = () => {
   return axios.create({
-    baseURL: "https://full-stack-news-backend.herokuapp.com/",
+    baseURL: "http://localhost:3001/",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -20,9 +20,9 @@ export const modifyContent = (content) => {
   };
 };
 
-export const fetchNews = (type, extraHeaders = {}) => {
+export const fetchNews = (type, size=5, page=1, extraHeaders = {}) => {
   return async (dispatch) => {
-    const results = await getAxiosInstance().get(`/news/${type}`, {
+    const results = await getAxiosInstance().get(`/news/${type}?size=${size}&page=${page}`, {
       headers: { ...extraHeaders },
     });
     dispatch({
@@ -46,7 +46,6 @@ export const fetchNewsDetail = (id, extraHeaders = {}) => {
 
 export const fetchCategories = (extraHeaders = {}) => {
   return async (dispatch) => {
-    console.log("getting categories");
     const results = await getAxiosInstance().get(`/categories`, {
       headers: { ...extraHeaders },
     });

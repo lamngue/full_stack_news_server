@@ -59,7 +59,7 @@ const CreateNews = (props) => {
       message.success("Update completed!");
     } else {
       dispatch(addNews(values));
-      navigate("/");
+      navigate("/main");
     }
   };
 

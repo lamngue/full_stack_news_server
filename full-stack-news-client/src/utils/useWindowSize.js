@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const useWindowSize = () => {
   const isSSR = typeof window === "undefined";

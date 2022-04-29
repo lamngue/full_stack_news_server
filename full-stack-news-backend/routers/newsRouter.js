@@ -6,6 +6,7 @@ const { encodeHTML, decodeHTML } = require("../utils/utils");
 
 newsRouter.get("/:type", (req, res) => {
   const { type } = req.params;
+  let {page, size} = req.query;
   let sqlStatement;
   if (type === "undefined") {
     sqlStatement = "SELECT * FROM news";
@@ -17,7 +18,17 @@ newsRouter.get("/:type", (req, res) => {
       WHERE c.type = '${type}'`;
   }
   db.query(sqlStatement, (err, result) => {
-    res.send(result);
+    if (err) throw err;
+    const totalLength = result.length;
+    if (size && page) {
+      const start = (page - 1) * size;
+      const paginate = result.slice(start, start + size);
+      result = paginate;
+    }
+    res.json({
+      totalLength,
+      result
+    });
   });
 });
 
