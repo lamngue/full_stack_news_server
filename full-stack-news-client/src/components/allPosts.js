@@ -17,15 +17,26 @@ const AllPosts = () => {
 
   const handleChangePage = (page, pageSize) => {
     dispatch(fetchNews(type, pageSize, page));
-  }
+  };
+
+  useEffect(() => {
+    console.log(news);
+  });
 
   return (
     <div>
       <h2>All News</h2>
       {news.result && news.totalLength > 0 ? (
         <>
-          {news.result.map((item) => <NewsCard type={type} key={item.ID} {...item} />)}
-          <Pagination onChange={handleChangePage} defaultPageSize={5} defaultCurrent={1} total={news.totalLength} />
+          {news.result.map((item) => (
+            <NewsCard type={type} key={item.ID} {...item} />
+          ))}
+          <Pagination
+            onChange={handleChangePage}
+            defaultPageSize={5}
+            defaultCurrent={1}
+            total={news.totalLength}
+          />
         </>
       ) : news.result && news.totalLength === 0 ? (
         <h3>

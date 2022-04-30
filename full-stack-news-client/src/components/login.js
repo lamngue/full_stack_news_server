@@ -1,12 +1,13 @@
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, Space } from "antd";
+import { Link } from "react-router-dom";
 
 const Login = () => {
-  const onLogin  = (values) => {
-    console.log('Success:', values);
+  const onLogin = (values) => {
+    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
   return (
@@ -31,7 +32,7 @@ const Login = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: "Please input your username!",
           },
         ]}
       >
@@ -44,7 +45,7 @@ const Login = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your password!',
+            message: "Please input your password!",
           },
         ]}
       >
@@ -68,9 +69,14 @@ const Login = () => {
           span: 16,
         }}
       >
-        <Button type="primary" htmlType="submit">
-          Login
-        </Button>
+        <Space>
+          <Button type="primary" htmlType="submit">
+            <Link to="/register">Register</Link>
+          </Button>
+          <Button type="primary" htmlType="submit">
+            Login
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );

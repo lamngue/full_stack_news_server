@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const PORT = 3001;
 const newsRouter = require("./routers/newsRouter");
 const categoriesRouter = require("./routers/categoriesRouter");
+const userRouter = require("./routers/userRouter");
 require("dotenv").config();
 
 const corsConfig = {
@@ -29,6 +30,8 @@ app.get("/", (req, res) => {
 app.use("/news/", newsRouter);
 
 app.use("/categories/", categoriesRouter);
+
+app.use("/user/", userRouter);
 
 app.listen(process.env.PORT || PORT, () => {
   console.log(process.env.MYSQL_DB_HOST);

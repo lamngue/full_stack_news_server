@@ -1,4 +1,6 @@
+import { async } from "@firebase/util";
 import axios from "axios";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const getAxiosInstance = () => {
   return axios.create({
@@ -11,6 +13,23 @@ const getAxiosInstance = () => {
   });
 };
 
+export const registerUser = (auth, email, username, password) => {
+  return async (dispatch) => {
+    const user = await createUserWithEmailAndPassword(auth, email, password);
+    user.username = username;
+    dispatch(saveUser(user));
+  };
+};
+
+export const saveUser = (user, extraHeaders = {}) => {
+  return async () => {
+    const userID = await getAxiosInstance().post(`/user/`, user, {
+      headers: { ...extraHeaders },
+    });
+    return userID;
+  };
+};
+
 export const modifyContent = (content) => {
   return (dispatch) => {
     dispatch({
@@ -20,11 +39,14 @@ export const modifyContent = (content) => {
   };
 };
 
-export const fetchNews = (type, size=5, page=1, extraHeaders = {}) => {
+export const fetchNews = (type, size = 5, page = 1, extraHeaders = {}) => {
   return async (dispatch) => {
-    const results = await getAxiosInstance().get(`/news/${type}?size=${size}&page=${page}`, {
-      headers: { ...extraHeaders },
-    });
+    const results = await getAxiosInstance().get(
+      `/news/${type}?size=${size}&page=${page}`,
+      {
+        headers: { ...extraHeaders },
+      }
+    );
     dispatch({
       type: "FETCH_NEWS",
       payload: results.data,
