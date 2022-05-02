@@ -50,6 +50,13 @@ function App() {
                 minHeight: 360,
               }}
             >
+              <h1
+                style={{
+                  textAlign: "center",
+                }}
+              >
+                Welcome to Full Stack News
+              </h1>
               <Suspense fallback={<LoadingBar />}>
                 <AppRoutes />
               </Suspense>

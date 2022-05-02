@@ -6,6 +6,7 @@ const PORT = 3001;
 const newsRouter = require("./routers/newsRouter");
 const categoriesRouter = require("./routers/categoriesRouter");
 const userRouter = require("./routers/userRouter");
+const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const corsConfig = {
@@ -18,6 +19,7 @@ const corsConfig = {
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(cors(corsConfig));
 app.use(express.static("uploads"));
 

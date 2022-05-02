@@ -1,6 +1,5 @@
-import { async } from "@firebase/util";
 import axios from "axios";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import Cookies from "js-cookie";
 
 const getAxiosInstance = () => {
   return axios.create({
@@ -13,20 +12,25 @@ const getAxiosInstance = () => {
   });
 };
 
-export const registerUser = (auth, email, username, password) => {
-  return async (dispatch) => {
-    const user = await createUserWithEmailAndPassword(auth, email, password);
-    user.username = username;
-    dispatch(saveUser(user));
-  };
-};
-
 export const saveUser = (user, extraHeaders = {}) => {
   return async () => {
-    const userID = await getAxiosInstance().post(`/user/`, user, {
+    const userID = await getAxiosInstance().post(`/user/register`, user, {
       headers: { ...extraHeaders },
     });
     return userID;
+  };
+};
+
+export const loginUser = (user, extraHeaders = {}) => {
+  return async (dispatch) => {
+    const ret = await getAxiosInstance().post(`/user/login`, user, {
+      headers: { ...extraHeaders },
+    });
+    Cookies.set("token", ret.data.token);
+    dispatch({
+      type: "SET_USER",
+      payload: ret,
+    });
   };
 };
 

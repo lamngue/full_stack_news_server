@@ -1,7 +1,6 @@
 import { Form, Input, Button, Checkbox } from "antd";
-import { auth } from "../firebase-config";
 import { useDispatch } from "react-redux";
-import { registerUser } from "../redux/action_creators";
+import { saveUser } from "../redux/action_creators";
 import { useNavigate } from "react-router";
 
 const Register = () => {
@@ -9,10 +8,9 @@ const Register = () => {
   const navigate = useNavigate();
 
   const onRegister = (values) => {
-    const { email, username, password } = values;
-    const userID = dispatch(registerUser(auth, email, username, password));
+    const userID = dispatch(saveUser(values));
     if (userID) {
-      navigate("/main/all-post");
+      navigate("/");
     }
   };
 

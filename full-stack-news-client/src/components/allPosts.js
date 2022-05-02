@@ -7,6 +7,7 @@ import { clearNews, fetchNews } from "../redux/action_creators";
 
 const AllPosts = () => {
   const news = useSelector((state) => state.news);
+  const user = useSelector((state) => state.user);
   const { type } = useParams();
   const dispatch = useDispatch();
 
@@ -19,10 +20,6 @@ const AllPosts = () => {
     dispatch(fetchNews(type, pageSize, page));
   };
 
-  useEffect(() => {
-    console.log(news);
-  });
-
   return (
     <div>
       <h2>All News</h2>
@@ -31,6 +28,7 @@ const AllPosts = () => {
           {news.result.map((item) => (
             <NewsCard type={type} key={item.ID} {...item} />
           ))}
+          <br />
           <Pagination
             onChange={handleChangePage}
             defaultPageSize={5}

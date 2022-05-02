@@ -1,3 +1,5 @@
+require("js-cookie");
+
 const encodeHTML = (str) => {
   let buf = [];
 

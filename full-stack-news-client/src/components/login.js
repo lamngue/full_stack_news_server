@@ -1,10 +1,25 @@
 import { Form, Input, Button, Checkbox, Space } from "antd";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../redux/action_creators";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const onLogin = (values) => {
+    dispatch(loginUser(values));
     console.log("Success:", values);
   };
+
+  useEffect(() => {
+    if (user && user.data && user.data.user) {
+      navigate("/main/all-post");
+    }
+  }, [user]);
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
