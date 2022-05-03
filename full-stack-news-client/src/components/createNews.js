@@ -29,6 +29,7 @@ const CreateNews = (props) => {
   const { id } = useParams();
   const isEdit = !!id;
   const [content, setContent] = useState("");
+  const user = useSelector((state) => state.user);
   const newsDetail = useSelector((state) => state.news.newsDetail);
   const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
@@ -54,12 +55,13 @@ const CreateNews = (props) => {
 
   const onFinish = async (values) => {
     values.content = content;
+    values.userID = user.data.id;
     if (isEdit) {
       dispatch(editNews({ id, values }));
       message.success("Update completed!");
     } else {
       dispatch(addNews(values));
-      navigate("/main");
+      navigate("/main/all-post");
     }
   };
 
@@ -112,11 +114,11 @@ const CreateNews = (props) => {
           <CKEditor
             editor={ClassicEditor}
             data={content}
-            config={{
-              ckfinder: {
-                uploadUrl: "http://localhost:3001/upload-image",
-              },
-            }}
+            // config={{
+            //   ckfinder: {
+            //     uploadUrl: "http://localhost:3001/upload-image",
+            //   },
+            // }}
             onChange={onContentChange}
           />
         </Form.Item>

@@ -76,3 +76,8 @@
 .ck-editor__editable_inline{
   height: 150px !important;
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}

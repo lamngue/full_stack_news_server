@@ -1,11 +1,11 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import "./App.css";
-import { Routes } from "react-router";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import { useRoutes } from "react-router-dom";
-import { Layout } from "antd";
+import { useRoutes, useNavigate } from "react-router-dom";
+import { Button, Layout } from "antd";
+import { checkSession, logoutUser } from "./redux/action_creators";
 import LoadingBar from "./components/loadingBar";
-// import
+import { useDispatch, useSelector } from "react-redux";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -34,6 +34,12 @@ export const AppRoutes = () =>
   ]);
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkSession());
+  }, []);
+
   return (
     <div className="App">
       <Router>

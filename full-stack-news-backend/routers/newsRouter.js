@@ -5,7 +5,6 @@ const db = require("../db/db");
 require("cookie-parser");
 const verifyToken = require("../middleware/auth");
 const { encodeHTML, decodeHTML } = require("../utils/utils");
-
 newsRouter.use(verifyToken);
 
 newsRouter.get("/:type", async (req, res) => {
@@ -16,7 +15,7 @@ newsRouter.get("/:type", async (req, res) => {
   if (type === "undefined") {
     sqlStatement = "SELECT * FROM news";
   } else {
-    sqlStatement = `SELECT n.ID, title, content, created_date, updated_date 
+    sqlStatement = `SELECT n.ID, title, content, created_date, updated_date, userID
       FROM news n 
       INNER JOIN category_news_mapping cn ON n.ID = cn.newsID
       INNER JOIN category c ON c.ID = cn.categoryID
@@ -24,15 +23,16 @@ newsRouter.get("/:type", async (req, res) => {
   }
   try {
     const [rows, fields] = await pool.query(sqlStatement);
+    let result = rows;
     const totalLength = rows.length;
     if (size && page) {
       const start = (page - 1) * size;
       const paginate = result.slice(start, start + size);
-      rows = paginate;
+      result = paginate;
     }
-    res.json({
+    res.status(200).json({
       totalLength,
-      result: rows,
+      result,
     });
   } catch (err) {
     res.status(400).send(err);
@@ -41,19 +41,20 @@ newsRouter.get("/:type", async (req, res) => {
 
 // Create a news
 newsRouter.post("/", async (req, res) => {
-  const { title, category, content } = req.body;
+  const { title, category, content, userID } = req.body;
   const created_date = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
   const updated_date = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss");
   const encodedHTML = encodeHTML(content);
   const pool = db.promise();
   const insertNews =
-    "INSERT INTO news (title, content, created_date, updated_date) VALUES (?, ?, ?, ?)";
+    "INSERT INTO news (title, content, created_date, updated_date, userID) VALUES (?, ?, ?, ?, ?)";
   try {
     const [rows, fields] = await pool.query(insertNews, [
       title,
       encodedHTML,
       created_date,
       updated_date,
+      userID,
     ]);
     const insertID = rows.insertId;
     for (let i = 0; i < category.length; i++) {
@@ -118,9 +119,10 @@ newsRouter.delete("/:id", async (req, res) => {
 });
 
 //View a news
-newsRouter.get("/detail/:id", verifyToken, async (req, res) => {
+newsRouter.get("/detail/:id", async (req, res) => {
   const { id } = req.params;
-  const getNewsStatement = "SELECT * FROM news WHERE ID = ?";
+  const getNewsStatement =
+    "SELECT A.*, B.username FROM news as A INNER JOIN users as B on A.userID = B.ID WHERE A.ID = ?";
   const getCategoryStatement =
     "SELECT * FROM category_news_mapping WHERE newsID = ?";
   const pool = db.promise();
@@ -135,7 +137,7 @@ newsRouter.get("/detail/:id", verifyToken, async (req, res) => {
     };
     res.send(resp);
   } catch (err) {
-    res.send(403).status("Error viewing News");
+    res.status(403).send("Error viewing News");
   }
 });
 

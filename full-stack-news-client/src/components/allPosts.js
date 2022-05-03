@@ -7,7 +7,6 @@ import { clearNews, fetchNews } from "../redux/action_creators";
 
 const AllPosts = () => {
   const news = useSelector((state) => state.news);
-  const user = useSelector((state) => state.user);
   const { type } = useParams();
   const dispatch = useDispatch();
 

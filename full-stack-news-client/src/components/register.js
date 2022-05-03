@@ -1,17 +1,19 @@
-import { Form, Input, Button, Checkbox } from "antd";
-import { useDispatch } from "react-redux";
+import { Form, Input, Button, Checkbox, message } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import { saveUser } from "../redux/action_creators";
 import { useNavigate } from "react-router";
 
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const onRegister = (values) => {
-    const userID = dispatch(saveUser(values));
-    if (userID) {
-      navigate("/");
-    }
+    dispatch(saveUser(values)).then((data) => {
+      if (data === "Registered User") {
+        navigate("/");
+      } else {
+        message.error("User with that username already exists");
+      }
+    });
   };
 
   const onRegisterFailed = async (errorInfo) => {
@@ -98,7 +100,7 @@ const Register = () => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Login
+          Register
         </Button>
       </Form.Item>
     </Form>

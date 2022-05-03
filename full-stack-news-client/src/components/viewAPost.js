@@ -18,6 +18,10 @@ const ViewAPost = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    console.log(newsDetail);
+  });
+
   const handleGoBack = () => {
     navigate(-1);
   };
@@ -27,12 +31,12 @@ const ViewAPost = () => {
   return (
     <div className="content-wrapper">
       <h1 style={{ fontSize: 36 }}>{newsDetail.title}</h1>
+      <h2>by {newsDetail.username}</h2>
       <Divider orientation="right">
         <Button type="primary" onClick={handleGoBack}>
           Back
         </Button>
       </Divider>
-
       <div dangerouslySetInnerHTML={{ __html: newsDetail.content }}></div>
     </div>
   );

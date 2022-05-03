@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { Button, Card, Popconfirm, Space, Tooltip, message } from "antd";
+import { Button, Card, Popconfirm, Space, message } from "antd";
 import { deleteNews } from "../redux/action_creators";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import slugify from "react-slugify";
 import useWindowSize from "../utils/useWindowSize";
 import {
@@ -12,6 +12,7 @@ import {
 
 const NewsCard = (props) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const { width } = useWindowSize();
   const confirmDelete = (id) => {
     dispatch(deleteNews(id));
@@ -19,9 +20,9 @@ const NewsCard = (props) => {
   };
 
   const cancel = (e) => {
-    console.log(e);
     message.error("Click on No");
   };
+
   return (
     <Card
       title={props.title}
@@ -31,12 +32,15 @@ const NewsCard = (props) => {
             type="primary"
             icon={width <= 700 ? <InfoCircleOutlined /> : null}
           >
-            <Link to={`/news/${slugify(props.title)}_${props.ID}`}>
+            <Link to={`/main/news/${slugify(props.title)}_${props.ID}`}>
               {width > 700 ? "Detail" : null}
             </Link>
           </Button>
 
-          <Button icon={width <= 700 ? <EditOutlined /> : null}>
+          <Button
+            disabled={user.data.user.ID !== props.userID}
+            icon={width <= 700 ? <EditOutlined /> : null}
+          >
             <Link to={`/edit/${props.ID}`}>{width > 700 ? "Edit" : null}</Link>
           </Button>
           <Popconfirm
@@ -44,7 +48,11 @@ const NewsCard = (props) => {
             onConfirm={() => confirmDelete(props.ID)}
             onCancel={cancel}
           >
-            <Button danger icon={width <= 700 ? <DeleteOutlined /> : null}>
+            <Button
+              disabled={user.data.user.ID !== props.userID}
+              danger
+              icon={width <= 700 ? <DeleteOutlined /> : null}
+            >
               {width > 700 ? "Delete" : null}
             </Button>
           </Popconfirm>

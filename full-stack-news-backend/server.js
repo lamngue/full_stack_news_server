@@ -7,6 +7,7 @@ const newsRouter = require("./routers/newsRouter");
 const categoriesRouter = require("./routers/categoriesRouter");
 const userRouter = require("./routers/userRouter");
 const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const corsConfig = {
@@ -14,7 +15,7 @@ const corsConfig = {
     "http://localhost:3000",
     "https://grand-nasturtium-b81bfe.netlify.app",
   ],
-  credentials: false,
+  credentials: true,
 };
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -27,6 +28,21 @@ app.get("/", (req, res) => {
   res.json({
     message: "Data Ready And server Also",
   });
+});
+
+app.get("/check-session", (req, res) => {
+  const authHeader = req.header("Authorization");
+  const token = authHeader && authHeader.split(" ")[1];
+  if (!authHeader || !token)
+    return res.status(401).send("Token does not exist");
+  try {
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    if (decoded) {
+      res.send(decoded);
+    }
+  } catch (error) {
+    return res.status(403).send(error);
+  }
 });
 
 app.use("/news/", newsRouter);

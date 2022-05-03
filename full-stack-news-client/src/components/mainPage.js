@@ -1,21 +1,35 @@
 import { useEffect, useState, Suspense } from "react";
 import "../App.css";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import { Layout, Menu } from "antd";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { Layout, Menu, Button } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router";
-import { fetchCategories } from "../redux/action_creators";
+import { fetchCategories, logoutUser } from "../redux/action_creators";
 import useWindowSize from "../utils/useWindowSize";
 
 import { PlusSquareOutlined, ReadOutlined } from "@ant-design/icons";
 // import
 
-const { Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const MainPage = () => {
   const { width } = useWindowSize();
   const [current, setCurrent] = useState("");
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user);
+  const logOut = () => {
+    dispatch(logoutUser());
+  };
+
+  useEffect(() => {
+    if (user && Object.keys(user).length === 0) {
+      navigate("/");
+    }
+  }, [user]);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -92,6 +106,13 @@ const MainPage = () => {
               minHeight: 360,
             }}
           >
+            <Button
+              style={{ marginLeft: "auto" }}
+              onClick={logOut}
+              type="primary"
+            >
+              Log out
+            </Button>
             <Outlet />
           </div>
         </Content>

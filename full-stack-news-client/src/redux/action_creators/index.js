@@ -8,6 +8,8 @@ const getAxiosInstance = () => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${Cookies.get("token")}`,
+      credentials: "same-origin",
     },
   });
 };
@@ -29,6 +31,31 @@ export const loginUser = (user, extraHeaders = {}) => {
     Cookies.set("token", ret.data.token);
     dispatch({
       type: "SET_USER",
+      payload: ret,
+    });
+  };
+};
+
+export const logoutUser = (user, extraHeaders = {}) => {
+  return async (dispatch) => {
+    const ret = await getAxiosInstance().post(`/user/logout`, user, {
+      headers: { ...extraHeaders },
+    });
+    Cookies.remove("token");
+    dispatch({
+      type: "LOGOUT_USER",
+      payload: {},
+    });
+  };
+};
+
+export const checkSession = (extraHeaders = {}) => {
+  return async (dispatch) => {
+    const ret = await getAxiosInstance().get(`/check-session`, {
+      headers: { ...extraHeaders },
+    });
+    dispatch({
+      type: "GET_USER",
       payload: ret,
     });
   };

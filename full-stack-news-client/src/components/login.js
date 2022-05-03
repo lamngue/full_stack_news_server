@@ -12,7 +12,6 @@ const Login = () => {
 
   const onLogin = (values) => {
     dispatch(loginUser(values));
-    console.log("Success:", values);
   };
 
   useEffect(() => {

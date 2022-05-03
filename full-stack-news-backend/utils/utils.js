@@ -1,4 +1,5 @@
 require("js-cookie");
+const jwt = require("jsonwebtoken");
 
 const encodeHTML = (str) => {
   let buf = [];

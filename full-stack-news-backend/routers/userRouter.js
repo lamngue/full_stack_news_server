@@ -66,4 +66,9 @@ userRouter.post("/login", async (req, res) => {
   }
 });
 
+userRouter.post("/logout", (req, res) => {
+  res.clearCookie("token");
+  res.status(200).send("User logged out!");
+});
+
 module.exports = userRouter;
