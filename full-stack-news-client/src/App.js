@@ -6,7 +6,8 @@ import { Button, Layout } from "antd";
 import { checkSession, logoutUser } from "./redux/action_creators";
 import LoadingBar from "./components/loadingBar";
 import { useDispatch, useSelector } from "react-redux";
-
+import GoogleButton from 'react-google-button'
+import { signInWithGoogle } from "./firebase";
 const { Header, Content, Footer, Sider } = Layout;
 
 const AllPostModule = lazy(() => import("./components/allPosts"));
@@ -35,10 +36,26 @@ export const AppRoutes = () =>
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
 
   useEffect(() => {
     dispatch(checkSession());
   }, []);
+
+
+  const logOut = () => {
+    dispatch(logoutUser());
+  };
+
+  const signInGoogle = () => {
+    signInWithGoogle();
+  }
+
+  useEffect(() => {
+    if (user?.data && Object.keys(user.data).length === 0 && window.location.pathname !== "/") {
+      window.location.pathname = '/';
+    }
+  }, [])
 
   return (
     <div className="App">
@@ -56,25 +73,32 @@ function App() {
                 minHeight: 360,
               }}
             >
-              <h1
-                style={{
-                  textAlign: "center",
-                }}
-              >
-                Welcome to Full Stack News
-              </h1>
+              <div className="container">
+                <h1
+                  style={{
+                    textAlign: "center",
+                  }}
+                >
+                  Welcome to Full Stack News
+                </h1>
+                <GoogleButton
+                  type="light"
+                  onClick={signInWithGoogle}
+                /> 
+                {Object.keys(user).length > 0 ? <Button
+                  style={{ marginLeft: "auto" }}
+                  onClick={logOut}
+                  type="primary"
+                >
+                  Log out
+                </Button> : null}
+              </div>
+              <br />
               <Suspense fallback={<LoadingBar />}>
                 <AppRoutes />
               </Suspense>
             </div>
           </Content>
-          <Footer
-            style={{
-              textAlign: "center",
-            }}
-          >
-            ©2022 Created by Lam Nguyen
-          </Footer>
         </Layout>
       </Router>
     </div>

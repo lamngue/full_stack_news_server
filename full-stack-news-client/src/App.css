@@ -64,16 +64,15 @@
 
 .site-layout .site-layout-background {
   background: #fff;
-  height: 100vh;
+  height: 110vh;
 }
 
-
 .main-layout {
-  height: calc(100vh - 5px);
+  height: calc(100vh + 5px);
   width: calc(100wh - 5px) !important;
 }
 
-.ck-editor__editable_inline{
+.ck-editor__editable_inline {
   height: 150px !important;
 }
 

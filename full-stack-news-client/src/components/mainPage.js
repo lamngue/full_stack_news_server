@@ -21,9 +21,6 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.user);
-  const logOut = () => {
-    dispatch(logoutUser());
-  };
 
   useEffect(() => {
     if (user && Object.keys(user).length === 0) {
@@ -106,13 +103,6 @@ const MainPage = () => {
               minHeight: 360,
             }}
           >
-            <Button
-              style={{ marginLeft: "auto" }}
-              onClick={logOut}
-              type="primary"
-            >
-              Log out
-            </Button>
             <Outlet />
           </div>
         </Content>

@@ -38,7 +38,7 @@ const NewsCard = (props) => {
           </Button>
 
           <Button
-            disabled={user.data.user.ID !== props.userID}
+            disabled={user && user.data?.user.userID  !== props.userID}
             icon={width <= 700 ? <EditOutlined /> : null}
           >
             <Link to={`/edit/${props.ID}`}>{width > 700 ? "Edit" : null}</Link>
@@ -49,7 +49,7 @@ const NewsCard = (props) => {
             onCancel={cancel}
           >
             <Button
-              disabled={user.data.user.ID !== props.userID}
+              disabled={user && user.data?.user.userID !== props.userID}
               danger
               icon={width <= 700 ? <DeleteOutlined /> : null}
             >

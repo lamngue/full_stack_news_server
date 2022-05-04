@@ -37,6 +37,7 @@ app.get("/check-session", (req, res) => {
     return res.status(401).send("Token does not exist");
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    console.log(decoded);
     if (decoded) {
       res.send(decoded);
     }

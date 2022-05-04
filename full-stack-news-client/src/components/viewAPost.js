@@ -18,10 +18,6 @@ const ViewAPost = () => {
     }
   }, [id]);
 
-  useEffect(() => {
-    console.log(newsDetail);
-  });
-
   const handleGoBack = () => {
     navigate(-1);
   };
