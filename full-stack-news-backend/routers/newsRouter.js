@@ -26,6 +26,8 @@ newsRouter.get("/:type", async (req, res) => {
     let result = rows;
     const totalLength = rows.length;
     if (size && page) {
+      size = parseInt(size);
+      page = parseInt(page);
       const start = (page - 1) * size;
       const paginate = result.slice(start, start + size);
       result = paginate;

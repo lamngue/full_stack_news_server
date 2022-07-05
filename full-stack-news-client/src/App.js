@@ -1,13 +1,10 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import { useRoutes, useNavigate } from "react-router-dom";
-import { Button, Layout } from "antd";
-import { checkSession, logoutUser } from "./redux/action_creators";
+import { useRoutes } from "react-router-dom";
+import { Layout } from "antd";
 import LoadingBar from "./components/loadingBar";
 import { useDispatch, useSelector } from "react-redux";
-import GoogleButton from 'react-google-button'
-import { signInWithGoogle } from "./firebase";
 const { Header, Content, Footer, Sider } = Layout;
 
 const AllPostModule = lazy(() => import("./components/allPosts"));
@@ -35,21 +32,7 @@ export const AppRoutes = () =>
   ]);
 
 function App() {
-  const dispatch = useDispatch();
   const user = useSelector(state => state.user);
-
-  useEffect(() => {
-    dispatch(checkSession());
-  }, []);
-
-
-  const logOut = () => {
-    dispatch(logoutUser());
-  };
-
-  const signInGoogle = () => {
-    signInWithGoogle();
-  }
 
   useEffect(() => {
     if (user?.data && Object.keys(user.data).length === 0 && window.location.pathname !== "/") {
@@ -73,7 +56,7 @@ function App() {
                 minHeight: 360,
               }}
             >
-              <div className="container">
+              <div className={Object.keys(user).length > 0 ? "container": null}>
                 <h1
                   style={{
                     textAlign: "center",
@@ -81,17 +64,6 @@ function App() {
                 >
                   Welcome to Full Stack News
                 </h1>
-                <GoogleButton
-                  type="light"
-                  onClick={signInWithGoogle}
-                /> 
-                {Object.keys(user).length > 0 ? <Button
-                  style={{ marginLeft: "auto" }}
-                  onClick={logOut}
-                  type="primary"
-                >
-                  Log out
-                </Button> : null}
               </div>
               <br />
               <Suspense fallback={<LoadingBar />}>

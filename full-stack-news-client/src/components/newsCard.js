@@ -1,3 +1,4 @@
+import {useEffect} from "react";
 import { Link } from "react-router-dom";
 import { Button, Card, Popconfirm, Space, message } from "antd";
 import { deleteNews } from "../redux/action_creators";
@@ -38,7 +39,7 @@ const NewsCard = (props) => {
           </Button>
 
           <Button
-            disabled={user && user.data?.user.userID  !== props.userID}
+            disabled={user && user.data?.id  !== props.userID}
             icon={width <= 700 ? <EditOutlined /> : null}
           >
             <Link to={`/edit/${props.ID}`}>{width > 700 ? "Edit" : null}</Link>
@@ -49,7 +50,7 @@ const NewsCard = (props) => {
             onCancel={cancel}
           >
             <Button
-              disabled={user && user.data?.user.userID !== props.userID}
+              disabled={user && user.data?.id !== props.userID}
               danger
               icon={width <= 700 ? <DeleteOutlined /> : null}
             >
