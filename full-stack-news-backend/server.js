@@ -14,7 +14,6 @@ const corsConfig = {
   origin: [
     "http://localhost:3000",
     "https://grand-nasturtium-b81bfe.netlify.app",
-    "https://peaceful-arithmetic-6cc738.netlify.app"
   ],
   credentials: true,
 };
