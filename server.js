@@ -16,6 +16,7 @@ const corsConfig = {
     "https://grand-nasturtium-b81bfe.netlify.app",
     "https://peaceful-arithmetic-6cc738.netlify.app"
   ],
+  methods: ['GET', 'POST', 'PUT', 'PATCH' , 'DELETE', 'OPTIONS'],
   credentials: true,
 };
 
